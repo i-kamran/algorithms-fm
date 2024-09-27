@@ -1,4 +1,6 @@
 export default function bs_list(haystack: number[], needle: number): boolean {
+    // Use the first element of the array as low and the last element as high.
+    // Use high as exclusive and low as inclusive.
     let lo = 0;
     let hi = haystack.length;
     while (lo < hi) {
