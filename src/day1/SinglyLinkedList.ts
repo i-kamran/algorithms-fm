@@ -7,7 +7,17 @@ export default class SinglyLinkedList<T> {
         this.length = 0
     }
 
-    prepend(item: T): void { }
+    prepend(item: T): void {
+        let node: ListNode<T> = { value: item }
+        if (this.head === undefined) {
+            this.head = this.tail = node
+        }
+        else {
+            node.next = this.head
+            this.head = node
+        }
+        this.length++;
+    }
     insertAt(item: T, idx: number): void { }
     append(item: T): void { }
     remove(item: T): T | undefined { }
