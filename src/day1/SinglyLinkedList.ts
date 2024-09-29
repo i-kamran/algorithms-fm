@@ -4,7 +4,7 @@ export default class SinglyLinkedList<T> {
     private tail?: ListNode<T>
     constructor() {
         this.head = this.tail = undefined
-        this.lenght = 0
+        this.length = 0
     }
 
     prepend(item: T): void { }
