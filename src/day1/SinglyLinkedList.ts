@@ -45,7 +45,42 @@ export default class SinglyLinkedList<T> {
         return this.getAt(idx)?.value;
     }
 
-    removeAt(idx: number): T | undefined { }
+    removeAt(idx: number): T | undefined {
+        if (idx < 0 || idx > this.length) {
+            return undefined;
+        }
+
+        if (idx === 0) {
+            // Remove head
+            const out = this.head?.value;
+            this.head = this.head?.next;
+            if (!this.head) {
+                this.tail = undefined;
+            }
+            this.length--;
+
+            return out;
+        }
+        this.length--;
+
+        const prev = this.getAt(idx - 1);
+        let curr = undefined;
+        if (prev) {
+            curr = prev.next;
+        }
+
+        if (idx === this.length) {
+            // remove tail
+            const out = curr?.value;
+            this.tail = prev;
+            curr = undefined;
+            return out;
+        }
+        if (prev && curr) {
+            return this.removeNode(prev, curr);
+        }
+        return undefined;
+    }
 
     private removeNode(prev: ListNode<T>, curr: ListNode<T>): T {
         prev.next = curr.next;
