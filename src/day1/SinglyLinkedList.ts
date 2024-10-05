@@ -36,7 +36,33 @@ export default class SinglyLinkedList<T> {
         this.tail = node;
     }
 
-    remove(item: T): T | undefined { }
+    remove(item: T): T | undefined {
+        let curr = this.head;
+        let prev = undefined;
+        for (let i = 0; curr && i < this.length; ++i) {
+            prev = curr;
+            if (curr.value === item) {
+                this.length--;
+                // If i is 0 remove head
+                if (i === 0) {
+                    this.head = this.head?.next;
+                    if (!this.head) {
+                        this.tail = undefined;
+                        return curr.value;
+                    }
+                }
+                // If i is length remove tail
+                if (i === this.length) {
+                    this.tail = prev;
+                    curr.next = undefined;
+                    return curr.value;
+                }
+                return this.removeNode(prev, curr);
+            }
+            curr = curr.next;
+        }
+        return undefined;
+    }
 
     get(idx: number): T | undefined {
         if (idx > this.length) {
