@@ -1,3 +1,7 @@
+type ListNode<T extends unknown> = {
+    value: T;
+    next?: ListNode<T>;
+};
 export default class SinglyLinkedList<T> {
     public length: number;
     private head?: ListNode<T>;
@@ -38,8 +42,3 @@ export default class SinglyLinkedList<T> {
         return curr;
     }
 }
-
-type ListNode<T extends unknown> = {
-    value: T;
-    next?: ListNode<T>;
-};
