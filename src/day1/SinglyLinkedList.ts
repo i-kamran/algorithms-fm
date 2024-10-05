@@ -24,7 +24,23 @@ export default class SinglyLinkedList<T> {
         this.length++;
     }
 
-    insertAt(item: T, idx: number): void { }
+    insertAt(item: T, idx: number): void {
+        if (idx > this.length) {
+            throw new Error("Index out of bounds");
+        } else if (idx === 0) {
+            this.prepend(item);
+        } else if (idx === this.length) {
+            this.append(item);
+        }
+        const node = { value: item } as ListNode<T>;
+        const prev = this.getAt(idx - 1);
+
+        if (prev) {
+            node.next = prev.next;
+            prev.next = node;
+        }
+        this.length++;
+    }
 
     append(item: T): void {
         const node = { value: item } as ListNode<T>;
