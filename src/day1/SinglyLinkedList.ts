@@ -2,10 +2,12 @@ type ListNode<T extends unknown> = {
     value: T;
     next?: ListNode<T>;
 };
+
 export default class SinglyLinkedList<T> {
     public length: number;
     private head?: ListNode<T>;
     private tail?: ListNode<T>
+
     constructor() {
         this.head = this.tail = undefined
         this.length = 0
@@ -22,10 +24,21 @@ export default class SinglyLinkedList<T> {
         }
         this.length++;
     }
+
     insertAt(item: T, idx: number): void {
     }
-    append(item: T): void { }
+    
+    append(item: T): void {
+        const node = { value: item } as ListNode<T>;
+        this.length++;
+        if (!this.tail) {
+            this.head = this.tail = node;
+        }
+        this.tail.next = node;
+        this.tail = node;}
+
     remove(item: T): T | undefined { }
+
     get(idx: number): T | undefined { 
       if (idx > this.length) {
             return undefined;
@@ -34,6 +47,7 @@ export default class SinglyLinkedList<T> {
     }
 
     removeAt(idx: number): T | undefined { }
+
     private getAt(idx: number): ListNode<T> | undefined {
         if (idx < 0 || idx >= this.length) {
             return undefined;
