@@ -26,9 +26,15 @@ export default class SinglyLinkedList<T> {
     }
     append(item: T): void { }
     remove(item: T): T | undefined { }
-    get(idx: number): T | undefined { }
+    get(idx: number): T | undefined { 
+      if (idx > this.length) {
+            return undefined;
+        }
+        return this.getAt(idx)?.value;
+    }
+
     removeAt(idx: number): T | undefined { }
-    private getAt(idx: number): Node<T> | undefined {
+    private getAt(idx: number): ListNode<T> | undefined {
         if (idx < 0 || idx >= this.length) {
             return undefined;
         }
