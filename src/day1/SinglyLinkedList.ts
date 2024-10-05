@@ -8,7 +8,7 @@ export default class SinglyLinkedList<T> {
     }
 
     prepend(item: T): void {
-        let node: ListNode<T> = { value: item }
+        const node: ListNode<T> = { value: item, next: undefined };
         if (this.head === undefined) {
             this.head = this.tail = node
         }
@@ -18,14 +18,15 @@ export default class SinglyLinkedList<T> {
         }
         this.length++;
     }
-    insertAt(item: T, idx: number): void { }
+    insertAt(item: T, idx: number): void {
+    }
     append(item: T): void { }
     remove(item: T): T | undefined { }
     get(idx: number): T | undefined { }
     removeAt(idx: number): T | undefined { }
 }
 
-type ListNode<T> = {
-    value: <T>,
-    next?: ListNode<T>
-}
+type ListNode<T extends unknown> = {
+    value: T;
+    next?: ListNode<T>;
+};
