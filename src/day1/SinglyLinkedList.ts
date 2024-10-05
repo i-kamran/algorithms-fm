@@ -6,28 +6,26 @@ type ListNode<T extends unknown> = {
 export default class SinglyLinkedList<T> {
     public length: number;
     private head?: ListNode<T>;
-    private tail?: ListNode<T>
+    private tail?: ListNode<T>;
 
     constructor() {
-        this.head = this.tail = undefined
-        this.length = 0
+        this.head = this.tail = undefined;
+        this.length = 0;
     }
 
     prepend(item: T): void {
         const node: ListNode<T> = { value: item, next: undefined };
         if (this.head === undefined) {
-            this.head = this.tail = node
-        }
-        else {
-            node.next = this.head
-            this.head = node
+            this.head = this.tail = node;
+        } else {
+            node.next = this.head;
+            this.head = node;
         }
         this.length++;
     }
 
-    insertAt(item: T, idx: number): void {
-    }
-    
+    insertAt(item: T, idx: number): void { }
+
     append(item: T): void {
         const node = { value: item } as ListNode<T>;
         this.length++;
@@ -35,18 +33,25 @@ export default class SinglyLinkedList<T> {
             this.head = this.tail = node;
         }
         this.tail.next = node;
-        this.tail = node;}
+        this.tail = node;
+    }
 
     remove(item: T): T | undefined { }
 
-    get(idx: number): T | undefined { 
-      if (idx > this.length) {
+    get(idx: number): T | undefined {
+        if (idx > this.length) {
             return undefined;
         }
         return this.getAt(idx)?.value;
     }
 
     removeAt(idx: number): T | undefined { }
+
+    private removeNode(prev: ListNode<T>, curr: ListNode<T>): T {
+        prev.next = curr.next;
+        curr.next = undefined;
+        return curr.value;
+    }
 
     private getAt(idx: number): ListNode<T> | undefined {
         if (idx < 0 || idx >= this.length) {
