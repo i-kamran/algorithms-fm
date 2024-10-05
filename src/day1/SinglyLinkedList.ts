@@ -24,6 +24,19 @@ export default class SinglyLinkedList<T> {
     remove(item: T): T | undefined { }
     get(idx: number): T | undefined { }
     removeAt(idx: number): T | undefined { }
+    private getAt(idx: number): Node<T> | undefined {
+        if (idx < 0 || idx >= this.length) {
+            return undefined;
+        }
+
+        let curr = this.head;
+
+        for (let i = 0; curr && i < idx; ++i) {
+            curr = curr.next;
+        }
+
+        return curr;
+    }
 }
 
 type ListNode<T extends unknown> = {
