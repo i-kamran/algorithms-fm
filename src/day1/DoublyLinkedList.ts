@@ -1,3 +1,9 @@
+type ListNode<T> = {
+    value: T;
+    prev?: ListNode<T>;
+    next?: ListNode<T>;
+};
+
 export default class DoublyLinkedList<T> {
     public length: number;
 
