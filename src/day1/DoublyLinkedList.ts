@@ -6,10 +6,13 @@ type ListNode<T> = {
 
 export default class DoublyLinkedList<T> {
     public length: number;
-
+    private head?: ListNode<T>;
+    private tail?: ListNode<T>;
     
 
     constructor() {
+        this.length = 0
+        this.head = this.tail = undefined
     }
 
     prepend(item: T): void {
