@@ -16,6 +16,15 @@ export default class DoublyLinkedList<T> {
     }
 
     prepend(item: T): void {
+         this.length++;
+        const node = { value: item } as ListNode<T>;
+        if (!this.head) {
+            this.head = this.tail = node;
+            return;
+        }
+        this.head.prev = node;
+        node.next = this.head;
+        this.head = node;
 
 }
     insertAt(item: T, idx: number): void {
