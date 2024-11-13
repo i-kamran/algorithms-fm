@@ -75,7 +75,33 @@ export default class DoublyLinkedList<T> {
         this.tail.next = node;
         this.tail = node;
     }
-    remove(item: T): T | undefined {}
+    remove(item: T): T | undefined {
+        let current = this.head;
+
+        while (current) {
+            if (current.value === item) {
+                // Update the surrounding nodes to bypass the current node
+                if (current.prev) {
+                    current.prev.next = current.next;
+                } else {
+                    // If current is head, move head to the next node
+                    this.head = current.next;
+                }
+
+                if (current.next) {
+                    current.next.prev = current.prev;
+                } else {
+                    // If current is tail, move tail to the previous node
+                    this.tail = current.prev;
+                }
+
+                this.length--;
+                return current.value;
+            }
+            current = current.next;
+        }
+        return undefined;
+    }
     get(idx: number): T | undefined {
         if (idx < 0 || idx >= this.length) return undefined;
 
