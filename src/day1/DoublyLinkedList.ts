@@ -111,5 +111,34 @@ export default class DoublyLinkedList<T> {
         }
         return current?.value;
     }
-    removeAt(idx: number): T | undefined {}
+    removeAt(idx: number): T | undefined {
+        if (idx < 0 || idx >= this.length) return undefined;
+
+        let current = this.head;
+
+        // Traverse to the node at the specified index
+        for (let i = 0; i < idx && current; i++) {
+            current = current.next;
+        }
+
+        if (!current) return undefined;
+
+        // Update surrounding nodes to bypass the current node
+        if (current.prev) {
+            current.prev.next = current.next;
+        } else {
+            // If removing the head node
+            this.head = current.next;
+        }
+
+        if (current.next) {
+            current.next.prev = current.prev;
+        } else {
+            // If removing the tail node
+            this.tail = current.prev;
+        }
+
+        this.length--;
+        return current.value;
+    }
 }
