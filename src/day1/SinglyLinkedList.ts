@@ -1,4 +1,4 @@
-type ListNode<T extends unknown> = {
+type ListNode<T> = {
     value: T;
     next?: ListNode<T>;
 };
