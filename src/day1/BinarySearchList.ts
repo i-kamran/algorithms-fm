@@ -6,7 +6,7 @@ export default function bs_list(haystack: number[], needle: number): boolean {
     while (lo < hi) {
         const mid = Math.floor(lo + (hi - lo) / 2);
         if (haystack[mid] === needle) return true;
-        else if (haystack[mid] < needle) {
+        else if (needle > haystack[mid]) {
             lo = mid + 1;
             continue;
         }
