@@ -58,11 +58,45 @@ export default class ArrayList<T> {
         this.arr[this.length] = item;
         this.length++;
     }
-    remove(item: T): T | undefined {}
-    get(idx: number): T | undefined {
-        if (idx >= this.length) return undefined
-        return this.arr[idx]
+    remove(item: T): T | undefined {
+        if (this.length === 0) {
+            return undefined;
+        }
+        for (let i = 0; i < this.length; ++i) {
+            if (this.arr[i] === item) {
+                const value = this.arr[i];
+                for (let j = i; j < this.length - i; ++j) {
+                    this.arr[j] = this.arr[j + 1];
+                }
+                this.length--;
+                return value;
+            }
+        }
+        return undefined;
     }
-    removeAt(idx: number): T | undefined {}
-}
+    get(idx: number): T | undefined {
+        if (idx >= this.length) return undefined;
+        return this.arr[idx];
+    }
+    show(): void {
+        if (!Array.isArray(this.arr)) {
+            console.error("Error: this.arr is not defined or is not an array.");
+            return;
+        }
 
+        this.arr.forEach((element, index) => {
+            console.log(`Index ${index}: ${element}`);
+        });
+    }
+    removeAt(idx: number): T | undefined {
+        if (idx >= this.length || idx < 0) {
+            return undefined;
+        }
+        const value = this.arr[idx];
+        for (let i = idx; i < this.length; ++i) {
+            this.arr[i] = this.arr[i + 1];
+        }
+        this.length--;
+        return value;
+    }
+}
