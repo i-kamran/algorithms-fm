@@ -1,5 +1,17 @@
 export default function bfs(head: BinaryNode<number>, needle: number): boolean {
+    const queue = new Queue<BinaryNode<number>>();
+    queue.enqueue(head);
+    return walk(queue, needle);
 }
+function walk(queue: Queue<BinaryNode<number>>, needle: number): boolean {
+    const curr = queue.deque();
+    if (!curr) return false;
+    if (curr.value === needle) return true
+    if (curr.left) queue.enqueue(curr.left)
+    if (curr.right) queue.enqueue(curr.right)
+    return walk(queue, needle)
+}
+
 class Queue<T> {
     length: number;
     head?: QueueNode<T>;
