@@ -102,6 +102,19 @@ export default class SinglyLinkedList<T> {
         prevNode.next = prevNode.next.next;
         return value;
     }
+    reverse(): void {
+        if (!this.head || this.length === 1) return;
+        let prev: ListNode<T> | undefined = undefined;
+        let curr: ListNode<T> | undefined = this.head;
+        while (curr) {
+            const next: ListNode<T> | undefined = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+        this.head = prev;
+
+    }
 
     private getNodeAt(idx: number): ListNode<T> | undefined {
         if (idx < 0 || idx >= this.length) return undefined;
