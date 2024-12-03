@@ -1,144 +1,117 @@
-type ListNode<T> = {
+type DLLNode<T> = {
     value: T;
-    prev?: ListNode<T>;
-    next?: ListNode<T>;
+    next?: DLLNode<T>;
+    prev?: DLLNode<T>;
 };
-
 export default class DoublyLinkedList<T> {
     public length: number;
-    private head?: ListNode<T>;
-    private tail?: ListNode<T>;
+    private head?: DLLNode<T>;
+    private tail?: DLLNode<T>;
 
     constructor() {
         this.length = 0;
         this.head = this.tail = undefined;
     }
-
     prepend(item: T): void {
-        this.length++;
-        const node = { value: item } as ListNode<T>;
+        const newNode: DLLNode<T> = { value: item };
         if (!this.head) {
-            this.head = this.tail = node;
-            return;
+            this.head = this.tail = newNode;
+        } else {
+            newNode.next = this.head;
+            this.head.prev = newNode;
+            this.head = newNode;
         }
-        this.head.prev = node;
-        node.next = this.head;
-        this.head = node;
+        this.length++;
     }
     insertAt(item: T, idx: number): void {
-        if (idx < 0 || idx > this.length) {
-            throw new RangeError("Index out of bounds");
-        }
-
-        // If inserting at the start, use prepend
+        if (idx < 0 || idx > this.length) return;
+        const idxNode = this.getNodeAt(idx);
+        if (!idxNode || !idxNode.prev) return;
         if (idx === 0) {
             this.prepend(item);
             return;
-        }
-
-        // If inserting at the end, use append
-        if (idx === this.length) {
+        } else if (idx === this.length) {
             this.append(item);
             return;
         }
-
-        // Traverse to the node just before the insertion point
-        let current = this.head;
-        for (let i = 0; i < idx - 1 && current; i++) {
-            current = current.next;
-        }
-
-        // Create the new node and insert it
-        const node = { value: item } as ListNode<T>;
-        node.next = current?.next;
-        node.prev = current;
-
-        if (current?.next) {
-            current.next.prev = node;
-        }
-        current!.next = node;
-
+        const newNode: DLLNode<T> = { value: item };
+        newNode.next = idxNode;
+        newNode.prev = idxNode.prev;
+        idxNode.prev.next = newNode;
+        idxNode.prev = newNode;
         this.length++;
     }
     append(item: T): void {
-        const node = { value: item } as ListNode<T>;
-        this.length++;
-
-        // If the list is empty, set head and tail to the new node
+        const newNode: DLLNode<T> = { value: item };
         if (!this.tail) {
-            this.head = this.tail = node;
-            return;
+            this.head = this.tail = newNode;
+        } else {
+            newNode.prev = this.tail;
+            this.tail.next = newNode;
+            this.tail = newNode;
         }
-
-        // Attach the new node to the end of the list
-        node.prev = this.tail;
-        this.tail.next = node;
-        this.tail = node;
+        this.length++;
     }
     remove(item: T): T | undefined {
-        let current = this.head;
-
-        while (current) {
-            if (current.value === item) {
-                // Update the surrounding nodes to bypass the current node
-                if (current.prev) {
-                    current.prev.next = current.next;
-                } else {
-                    // If current is head, move head to the next node
-                    this.head = current.next;
-                }
-
-                if (current.next) {
-                    current.next.prev = current.prev;
-                } else {
-                    // If current is tail, move tail to the previous node
-                    this.tail = current.prev;
-                }
-
-                this.length--;
-                return current.value;
-            }
-            current = current.next;
+        let curr = this.head;
+        while (curr) {
+            if (curr.value === item) break;
+            curr = curr.next;
         }
-        return undefined;
+        if (!curr) return undefined;
+        return (this.removeNode(curr))
     }
+
     get(idx: number): T | undefined {
         if (idx < 0 || idx >= this.length) return undefined;
-
-        let current = this.head;
-        for (let i = 0; i < idx && current; i++) {
-            current = current.next;
-        }
-        return current?.value;
+        return this.getNodeAt(idx)?.value;
     }
+
+    show(): void {
+        let curr = this.head;
+        while (curr) {
+            console.log(curr.value);
+            curr = curr.next;
+        }
+    }
+
     removeAt(idx: number): T | undefined {
         if (idx < 0 || idx >= this.length) return undefined;
+        const idxNode = this.getNodeAt(idx);
+        if (!idxNode) return undefined;
 
-        let current = this.head;
+        return (this.removeNode(idxNode))
+    }
 
-        // Traverse to the node at the specified index
-        for (let i = 0; i < idx && current; i++) {
-            current = current.next;
+    private getNodeAt(idx: number): DLLNode<T> | undefined {
+        let curr = this.head;
+        for (let i = 0; i < idx; ++i) {
+            if (!curr) return undefined;
+            curr = curr.next;
         }
+        return curr;
+    }
 
-        if (!current) return undefined;
-
-        // Update surrounding nodes to bypass the current node
-        if (current.prev) {
-            current.prev.next = current.next;
-        } else {
-            // If removing the head node
-            this.head = current.next;
-        }
-
-        if (current.next) {
-            current.next.prev = current.prev;
-        } else {
-            // If removing the tail node
-            this.tail = current.prev;
-        }
-
+    private removeNode(node: DLLNode<T>):T{
         this.length--;
-        return current.value;
+        const value = node.value;
+        if (this.length === 0) {
+            this.head = this.tail = undefined;
+            node.prev = node.next = undefined;
+            return value;
+        }
+        if (node.next) {
+            node.next.prev = node.prev;
+        }
+        if (node.prev) {
+            node.prev.next = node.next;
+        }
+        if (node === this.head) {
+            this.head = node.next;
+        } else if (node === this.tail) {
+            this.tail = node.prev;
+        }
+        node.prev = node.next = undefined;
+        return value;
     }
 }
