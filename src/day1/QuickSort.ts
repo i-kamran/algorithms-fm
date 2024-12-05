@@ -1,41 +1,33 @@
 export default function quick_sort(arr: number[]): void {
-    if (arr.length <= 1) return;
+    sort(arr, 0, arr.length - 1)
 
-    function partition(left: number, right: number): number {
-        const pivot = arr[Math.floor((left + right) / 2)];
-        let i = left;
-        let j = right;
-
-        while (i <= j) {
-            while (arr[i] < pivot) {
-                i++;
-            }
-
-            while (arr[j] > pivot) {
-                j--;
-            }
-
-            if (i <= j) {
-                [arr[i], arr[j]] = [arr[j], arr[i]];
-                i++;
-                j--;
-            }
-        }
-
-        return i;
-    }
-
-    function sort(left: number, right: number): void {
-        const index = partition(left, right);
-
-        if (left < index - 1) {
-            sort(left, index - 1);
-        }
-
-        if (index < right) {
-            sort(index, right);
+}
+function partition(arr: number[], lo: number, hi: number): number{
+    const mid = Math.floor((lo + (hi - lo) / 2))
+    swap(arr, mid, hi)
+    const pivot = arr[hi]
+    let pointer = lo
+    for (let i = lo; i < hi; ++i){
+       if (arr[i] <= pivot) {
+            swap(arr, i, pointer)
+            pointer++;
         }
     }
+    swap(arr, pointer,hi )
+    return pointer
+}
 
-    sort(0, arr.length - 1);
+function sort(arr: number[], lo: number, hi: number): void{
+    if (lo >= hi) return
+    const pivotIdx = partition(arr, lo, hi)
+    
+    sort(arr, lo, pivotIdx - 1)
+    sort(arr, pivotIdx + 1, hi)
+
+     
+}
+function swap(arr: number[], idxA: number, idxB: number): void{
+    const temp = arr[idxA]
+    arr[idxA] = arr[idxB]
+    arr[idxB] = temp
 }
