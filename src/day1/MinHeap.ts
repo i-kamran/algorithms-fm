@@ -1,6 +1,5 @@
 export default class MinHeap {
     public length: number;
-    private capacity: number;
     private data: number[];
 
     constructor() {
@@ -26,10 +25,24 @@ export default class MinHeap {
             this.heapifyUp(parentIdx);
         }
     }
+    private heapifyDown(idx: number): void {
+        const leftIdx = this.getLeftChild(idx);
+        const rightIdx = this.getRightChild(idx);
+        if (idx >= this.length || leftIdx >= this.length) return;
+
+        const minChild = Math.min(this.data[leftIdx], this.data[rightIdx]);
+        if (this.data[idx] > minChild) {
+            if (this.data[idx] > this.data[leftIdx]) {
+                this.swap(this.data, idx, leftIdx);
+                this.heapifyDown(leftIdx);
+            }
+            this.swap(this.data, idx, rightIdx);
+            this.heapifyDown(rightIdx);
+        }
+    }
     private swap(arr: number[], idxA: number, idxB: number): void {
         const temp = arr[idxA];
         arr[idxA] = arr[idxB];
         arr[idxB] = temp;
     }
-    private heapifyDown() {}
 }
