@@ -12,4 +12,10 @@ export default class MinHeap {
     private getParent(idx: number): number {
         return Math.floor((idx - 1) / 2);
     }
+    private getLeftChild(idx: number): number {
+        return 2 * idx + 1;
+    }
+    private getRightChild(idx: number): number {
+        return 2 * idx + 2;
+    }
 }
