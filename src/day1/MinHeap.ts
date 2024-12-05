@@ -18,4 +18,18 @@ export default class MinHeap {
     private getRightChild(idx: number): number {
         return 2 * idx + 2;
     }
+    private heapifyUp(idx: number): void {
+        if (idx === 0) return;
+        const parentIdx = this.getParent(idx);
+        if (this.data[idx] > this.data[parentIdx]) {
+            this.swap(this.data, idx, parentIdx);
+            this.heapifyUp(parentIdx);
+        }
+    }
+    private swap(arr: number[], idxA: number, idxB: number): void {
+        const temp = arr[idxA];
+        arr[idxA] = arr[idxB];
+        arr[idxB] = temp;
+    }
+    private heapifyDown() {}
 }
