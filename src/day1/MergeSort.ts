@@ -1,47 +1,47 @@
 export default function merge_sort(arr: number[]): void {
-    if (arr.length <= 1) return;
-
-    // Split array into two halves
-    const mid = Math.floor(arr.length / 2);
-    const left = arr.slice(0, mid);
-    const right = arr.slice(mid);
-
-    // Recursively sort both halves
-    merge_sort(left);
-    merge_sort(right);
-
-    // Merge the sorted halves
-    merge(arr, left, right);
+    sort(arr, 0, arr.length - 1);
+    return;
 }
 
-function merge(arr: number[], left: number[], right: number[]): void {
-    let i = 0;  // Index for left array
-    let j = 0;  // Index for right array
-    let k = 0;  // Index for merged array
+function merge(arr: number[], lo: number, mid: number, hi: number) {
+    const sizeLeft = mid - lo + 1;
+    const sizeRight = hi - mid;
 
-    // Compare and merge elements from left and right arrays
-    while (i < left.length && j < right.length) {
-        if (left[i] <= right[j]) {
-            arr[k] = left[i];
-            i++;
+    const arrLeft = new Array(sizeLeft);
+    const arrRight = new Array(sizeRight);
+
+    for (let i = 0; i <= sizeLeft; ++i) {
+        arrLeft[i] = arr[i + lo];
+    }
+    for (let i = 0; i <= sizeRight; ++i) {
+        arrRight[i] = arr[i + mid + 1];
+    }
+
+    let pointer = lo;
+    let pointerLeft = 0,
+        pointerRight = 0;
+    while (pointerLeft < sizeLeft && pointerRight < sizeRight) {
+        if (arrLeft[pointerLeft] < arrRight[pointerRight]) {
+            arr[pointer] = arrLeft[pointerLeft++];
         } else {
-            arr[k] = right[j];
-            j++;
+            arr[pointer] = arrRight[pointerRight++];
         }
-        k++;
+        pointer++;
     }
+    while (pointerLeft < sizeLeft) {
+        arr[pointer] = arrLeft[pointerLeft++];
+        pointer++;
+    }
+    while (pointerRight < sizeRight) {
+        arr[pointer] = arrRight[pointerRight++];
+        pointer++;
+    }
+}
+function sort(arr: number[], lo: number, hi: number) {
+    if (lo >= hi) return;
+    const mid = Math.floor(lo + (hi - lo) / 2);
 
-    // Copy remaining elements from left array if any
-    while (i < left.length) {
-        arr[k] = left[i];
-        i++;
-        k++;
-    }
-
-    // Copy remaining elements from right array if any
-    while (j < right.length) {
-        arr[k] = right[j];
-        j++;
-        k++;
-    }
+    sort(arr, lo, mid);
+    sort(arr, mid + 1, hi);
+    merge(arr, lo, mid, hi);
 }
