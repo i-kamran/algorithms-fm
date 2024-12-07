@@ -1,3 +1,6 @@
+function hasUnvisited(seen: boolean[], dists: number[]): boolean{
+    return seen.some((s, i) => !s && dists[i] < Infinity)
+}
 export default function dijkstra_list(source: number, sink: number, arr: WeightedAdjacencyList): number[] {
 
     const seen = new Array(arr.length).fill(false)
