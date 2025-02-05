@@ -19,13 +19,15 @@
         "day": "echo src/day1"
     },
     "devDependencies": {
-        "@eslint/js": "^9.13.0",
+        "@eslint/js": "^9.17.0",
         "@swc-node/register": "^1.6.7",
         "@types/node": "^22.10.1",
-        "eslint": "^9.13.0",
-        "globals": "^15.11.0",
+        "eslint": "^9.17.0",
+        "globals": "^15.13.0",
         "ts-node": "^10.9.2",
         "typescript": "^5.7.2",
-        "typescript-eslint": "^8.11.0"
-    }
+        "typescript-eslint": "^8.18.0"
+    },
+    "repository": "git@github.com:i-kamran/algorithms-fm",
+    "author": "i-kamran <ibragimovkmrn@gmail.com>"
 }
